@@ -1,0 +1,18 @@
+<!doctype html><html lang="da"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer"><title>Tesla-login: kode</title>
+<body style="font-family:system-ui,sans-serif;max-width:40em;margin:3em auto;padding:0 1em">
+<h1 id="h">Tesla-login</h1>
+<p id="msg">Henter kode…</p>
+<textarea id="code" readonly rows="4" style="width:100%;font-family:monospace;display:none"></textarea>
+<p><button id="copy" style="display:none;font-size:1.1em;padding:.5em 1em">Kopiér kode</button></p>
+<p style="color:gray;font-size:.9em">Koden virker kun i få minutter og kan kun bruges én gang. Send den til din bot med det samme.</p>
+<script>
+var q=new URLSearchParams(location.search),c=q.get("code"),e=q.get("error"),s=q.get("state");
+var m=document.getElementById("msg"),t=document.getElementById("code"),b=document.getElementById("copy");
+if(c){m.textContent="Login lykkedes. Kopiér hele koden herunder og send den til din bot:";
+ t.value=c+(s?"\nstate="+s:"");t.style.display=b.style.display="block";
+ b.onclick=function(){t.select();navigator.clipboard?navigator.clipboard.writeText(t.value):document.execCommand("copy");b.textContent="Kopieret ✓"};}
+else if(e){m.textContent="Tesla returnerede en fejl: "+e+" "+(q.get("error_description")||"");}
+else{m.textContent="Ingen kode i adressen. Åbn login-linket fra din bot igen.";}
+history.replaceState(null,"",location.pathname);
+</script></body></html>
